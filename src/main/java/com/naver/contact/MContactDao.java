@@ -51,19 +51,20 @@ public class MContactDao {
 		String sqlgetidnumber = "select nvl(max(contactid),0) + 1 as newid from MEMBERSCONTACTS";
 //		MEMBERSCONTACTS 테이블에 1명 연락처 INSERT 위한 SQL
 		String sqlcontact="INSERT INTO memberscontacts						"
-					+	"(contactid,name,phonenumber,address,moimid,photo)	"
-					+	"VALUES	(	?					"	
-					+ 	"	,	?					"
-					+	"	, 	?					"
-					+ 	"	,	?					" 
-					+ 	"	,	?					"
-					+	"	, 	?					"
-					+ 	"	)						";
+				+"		(contactid,name,phonenumber,address,moimid,photo)	"
+				+"	VALUES	(	?						"	
+				+"		,	?						"
+				+"		, 	?						"
+				+"		,	?						" 
+				+"		,	?						"
+				+"		, 	?						"
+				+"		)							";
 //		MEMBERCONTACTMAP 테이블에 회원ID와 연락처ID를 INSERT 하기위한 SQL
-		String sqlmap = "INSERT INTO MEMBERCONTACTMAP(MEMBERID,CONTACTID)	"
-					+ 	"VALUES( 	?			"
-					+	"	,	?			"
-					+	"	)				";
+		String sqlmap = "INSERT INTO MEMBERCONTACTMAP		"
+				+"		(MEMBERID,CONTACTID)	"
+				+"	VALUES	( 	?		"
+				+"		,	?		"
+				+"		)			";
 //		위 3개 SQL을 실행 시키기 위한 PreparedStatement 준비		
 		PreparedStatement pstmt1 = conn.prepareStatement(sqlgetidnumber);
 		PreparedStatement pstmt2 = conn.prepareStatement(sqlcontact);
@@ -163,13 +164,13 @@ public class MContactDao {
 	public void updateContact(MContactDto mcdto) throws Exception{
 		Connection conn = open();				//connection 만든다
 //		MEMBERSCONTACTS 테이블에서 UPDATE 하는 SQL	
-		String sql=	"UPDATE MEMBERSCONTACTS				"
-				+ 	"   	SET	NAME = 		?	"
-				+	"	  ,	PHONENUMBER = 	?	"
-				+ 	"	  ,	ADDRESS = 	?	"
-				+ 	"	  ,	MOIMID = 	?	"
-				+ 	"	  ,	PHOTO = 	?	"
-				+	" 	WHERE	CONTACTID = 	?	";
+		String sql =	"UPDATE MEMBERSCONTACTS			"
+			+ 	" 	SET	NAME = 		?	"
+			+	"	  ,	PHONENUMBER = 	?	"
+			+ 	"	  ,	ADDRESS = 	?	"
+			+ 	"	  ,	MOIMID = 	?	"
+			+ 	"	  ,	PHOTO = 	?	"
+			+	" 	WHERE	CONTACTID = 	?	";
 
 //		위 SQL을 실행 시키기 위한 PreparedStatement 준비	
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -235,23 +236,23 @@ public class MContactDao {
 	public ArrayList<MContactDto> getSearchName(String memberid, String searchname) throws Exception{
 		Connection conn =open();				//connection 만든다
 //		MEMBERSCONTACTS,MEMBERCONTACTMAP,MOIM 테이블에서 SELECT 하는 SQL	
-		String sql = "SELECT 	  mm.MEMBERID     			"
-			+ "		,  mc.CONTACTID				"
-			+ "		,  mc.NAME						"
-			+ "		,  mc.PHONENUMBER				"
-			+ "		,  mc.ADDRESS					"
-			+ "		,  mc.MOIMID					"	
-			+ "		,  m.MOIMNAME					"
-			+ "		,c.PHOTO					"
-			+ "		,	mc.REGDT					"
-			+ "	FROM	MEMBERSCONTACTS mc			"	
-			+ "		,	MEMBERCONTACTMAP mm			"
-			+ "		,	MOIM m						"
-			+ "	WHERE 	mm.MEMBERID  = ? 			"
-			+ "	  AND 	m.MOIMID = mc.MOIMID		"
-			+ "	  AND 	mm.CONTACTID = mc.CONTACTID	"
-			+ "	  AND	mc.NAME LIKE '%'|| ? || '%'	"	
-			+ "   ORDER BY 	mc.CONTACTID ASC			";
+		String sql = "SELECT 	  mm.MEMBERID     		"
+			+ "		, mc.CONTACTID			"
+			+ "		, mc.NAME			"
+			+ "		, mc.PHONENUMBER		"
+			+ "		, mc.ADDRESS			"
+			+ "		, mc.MOIMID			"	
+			+ "		, m.MOIMNAME			"
+			+ "		, mc.PHOTO			"
+			+ "		, mc.REGDT			"
+			+ "	FROM	  MEMBERSCONTACTS mc		"	
+			+ "		, MEMBERCONTACTMAP mm		"
+			+ "		, MOIM m			"
+			+ "	WHERE 	  mm.MEMBERID  = ? 		"
+			+ "	  AND 	  m.MOIMID = mc.MOIMID		"
+			+ "	  AND 	  mm.CONTACTID = mc.CONTACTID	"
+			+ "	  AND	  mc.NAME LIKE '%'|| ? || '%'	"	
+			+ "   ORDER BY 	  mc.CONTACTID ASC		";
 //		위 SQL을 실행 시키기 위한 PreparedStatement 준비	
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1,memberid);			//MEMBERID 바인딩
@@ -274,15 +275,15 @@ public class MContactDao {
 				dto.setPhoto(rs.getString("photo"));
 				dto.setRegdt(rs.getDate("regdt"));
 				
-				contactsList.add(dto);			//ArrayList에 1명 추가					
+				contactsList.add(dto);		//ArrayList에 1명 추가					
 			}	
 		}
 		if(contactsList.isEmpty()) {			//검색 결과 없을 때
 			MContactDto dto = new MContactDto(); 
-			dto.setMemberid(memberid);			//MEMBERID만 담은 DTO 만들어서 
-			contactsList.add(dto);				//ArrayList에 추가한다
+			dto.setMemberid(memberid);		//MEMBERID만 담은 DTO 만들어서 
+			contactsList.add(dto);			//ArrayList에 추가한다
 		}
-		return contactsList;					//ArrayList 리턴
+		return contactsList;				//ArrayList 리턴
 	}
 //==== getSearchName() END ================================================
 
@@ -290,29 +291,29 @@ public class MContactDao {
 	public ArrayList<MContactDto> getAll(String memberid) throws Exception{
 		Connection conn =open();				//connection 만든다
 //		MEMBERSCONTACTS,MEMBERCONTACTMAP,MOIM 테이블에서 SELECT 하는 SQL	
-		String sql ="SELECT 	mm.MEMBERID	 			"
-				+ "	 		,	mc.CONTACTID			"
-				+ "	 		,	mc.name					"
-				+ "	 		,	mc.phonenumber			"
-				+ "	 		,	mc.address				"
-				+ "	 		,	mc.moimid				"
-				+ "	 		,	m.moimname				"
-				+ "	 		,	mc.photo				"
-				+ "	 		,	mc.REGDT				"
-				+ "  FROM	MEMBERSCONTACTS mc	 		"
-				+ "  	 ,	MEMBERCONTACTMAP mm			"
-				+ "  	 ,	MOIM m 						"
-				+ " WHERE 	mm.MEMBERID = 		?		"
-				+ "   AND 	mm.CONTACTID =mc.CONTACTID	"
-				+ "   AND 	m.MOIMID = mc.MOIMID 		"
-				+ " ORDER BY mc.CONTACTID ASC			";
+		String sql ="SELECT 	 mm.MEMBERID	 			"
+			+ "		, mc.CONTACTID				"
+			+ "	 	, mc.name				"
+			+ "	 	, mc.phonenumber			"
+			+ "	 	, mc.address				"
+			+ "	 	, mc.moimid				"
+			+ "	 	, m.moimname				"
+			+ "	 	, mc.photo				"
+			+ "	 	, mc.REGDT				"
+			+ "  FROM	  MEMBERSCONTACTS mc	 		"
+			+ "  	 	, MEMBERCONTACTMAP mm			"
+			+ "  	 	, MOIM m 				"
+			+ "  WHERE 	  mm.MEMBERID = 		?	"
+			+ "    AND 	  mm.CONTACTID = mc.CONTACTID		"
+			+ "    AND 	  m.MOIMID = mc.MOIMID 			"
+			+ " ORDER BY mc.CONTACTID ASC				";
 //		위 SQL을 실행 시키기 위한 PreparedStatement 준비	
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1,memberid);			//MEMBERID 바인딩
+		pstmt.setString(1,memberid);		//MEMBERID 바인딩
 //		연락처 목록 담을 ArrayList 준비		
 		ArrayList<MContactDto> contactsList = new ArrayList<>();
 		ResultSet rs = pstmt.executeQuery();	//SQL실행
-		try (conn;pstmt;rs){					//자동 close
+		try (conn;pstmt;rs){			//자동 close
 			while(rs.next()) {
 				MContactDto dto = new MContactDto(); // 1개의 연락처 저장
 //				결과셋에서 연락처 정보 추출
@@ -326,15 +327,15 @@ public class MContactDao {
 				dto.setPhoto(rs.getString("photo"));
 				dto.setRegdt(rs.getDate("regdt"));
 
-				contactsList.add(dto);			//ArrayList에 1명 추가
+				contactsList.add(dto);		//ArrayList에 1명 추가
 			}
 		}
 		if(contactsList.isEmpty()) {			//검색 결과 없을 때
 			MContactDto dto = new MContactDto(); 
-			dto.setMemberid(memberid);			//MEMBERID만 담은 DTO 만들어서
-			contactsList.add(dto);				//ArrayList에 추가한다
+			dto.setMemberid(memberid);		//MEMBERID만 담은 DTO 만들어서
+			contactsList.add(dto);			//ArrayList에 추가한다
 		}
-		return contactsList;					//ArrayList 리턴
+		return contactsList;				//ArrayList 리턴
 	}
 //==== getAll() END=====================================================
 }
