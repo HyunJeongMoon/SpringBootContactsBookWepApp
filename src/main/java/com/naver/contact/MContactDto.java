@@ -12,9 +12,9 @@ public class MContactDto {
 	private String 	memberid;		//회원id 
 	private int 	contactid;		//연락처id
 	private String	name;			//이름
-	private String	phonenumber;	//전화번호
+	private String	phonenumber;		//전화번호
 	private String	address;		//주소
-	private int		moimid;			//그룹id
+	private int		moimid;		//그룹id
 	private String	moimname;		//그룹이름
 	private String	photo;			//이미지파일명
 	private Date	regdt;			//등록날짜
