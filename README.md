@@ -1,1 +1,1 @@
-![contactsbook_screenshot](https://github.com/HyunJeongMoon/SpringBootContactsBookWepApp/assets/151496207/cb5e9ead-b920-4e87-bf04-55bb5d05c54b)
+![contactsbook_screenshot](https://github.com/HyunJeongMoon/SpringBootContactsBookWepApp/assets/151496207/2bb1d1fe-7f13-49c8-85f4-ebfbe5fdaada)
