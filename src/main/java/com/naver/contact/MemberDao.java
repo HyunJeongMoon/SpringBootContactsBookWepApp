@@ -48,17 +48,17 @@ public class MemberDao {
 	public void addMember(MemberDto dto) throws Exception{ 
 		Connection conn = open();		//connection 만든다
 //		새로운 회원을 DB에 추가 하기 위한 SQL
-		String	sql= "insert into members(memberid,memberpassword)	"
-				   + " values(									    "
-				   + "	 	?										"
-				   + "	,	? )										";
+		String	sql = "insert into members(memberid,memberpassword)	"
+			    + " values(						"
+			   + "	 		?				"
+			   + "		,	? )				";
 		
 //		SQL실행 위한 PreparedStatement
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		try(conn;pstmt) {	// 자동 close 
 			pstmt.setString(1,dto.getMemberid());		//MEMBERID 바인딩
 			pstmt.setString(2,dto.getMemberpassword());	//MEMBERPASSWORD 바인딩
-			pstmt.executeUpdate(); 						//SQL 실행
+			pstmt.executeUpdate(); 				//SQL 실행
 		}
 	}
 //==== addMember() method END================================================
