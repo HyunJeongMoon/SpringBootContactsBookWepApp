@@ -21,16 +21,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
-@Controller 							//spring 시작 될때 BEAN으로 등록 된다
+@Controller 						//spring 시작 될때 BEAN으로 등록 된다
 @RequestMapping("/member")				//http://localhost:9988/member : URL 주소 매핑
 //====MemberWebController.java class =======================================
-public class MemberWebController {		//컨트롤러 클래스
+public class MemberWebController {			//컨트롤러 클래스
 	
-	@Autowired							//어노테이션 Autowired 지정- 다음줄에
-	MemberDao dao;						//회원정보를 위한 DAO
+	@Autowired					//어노테이션 Autowired 지정- 다음줄에
+	MemberDao dao;					//회원정보를 위한 DAO
 	
-	@Autowired							//어노테이션 Autowired 지정- 다음줄에
-	MContactDao mcdao;					//연락처정보를 위한 DAO
+	@Autowired					//어노테이션 Autowired 지정- 다음줄에
+	MContactDao mcdao;				//연락처정보를 위한 DAO
 //====MemberWebController.java class END ====================================
 	
 //====회원 로그인 화면 접근을 위한 welcome() ======================================= 
@@ -78,8 +78,8 @@ public class MemberWebController {		//컨트롤러 클래스
 	@PostMapping("/authentication")
 	public String authMember(HttpSession session,@ModelAttribute MemberDto dto, Model model) { 
 		try {
-			if (dao.authenticationMember(dto).equals("pass")) {	//인증 성공하면 연락처 목록보기로 넘기기
-				session.setAttribute("memberid", dto.getMemberid()); //로그인한 멤버 session 추가
+			if (dao.authenticationMember(dto).equals("pass")) {		//인증 성공하면 연락처 목록보기로 넘기기
+				session.setAttribute("memberid", dto.getMemberid()); 	//로그인한 멤버 session 추가
 				return "redirect:/member/Acontacts/"; 
 			}
 			else {					
@@ -100,10 +100,10 @@ public class MemberWebController {		//컨트롤러 클래스
 		ArrayList<MContactDto> list;	//여러명 연락처를 담은 ArrayList list 선언 
 		try {
 			list = mcdao.getAll(memberid);			//로그인 성공한 회원의 memberid로 검색한 연락처 목록 받는다
-			model.addAttribute("Acontacts", list);	// 에러 없으면 model에 연락처 목록 넣는다
-		} catch (Exception e) { 		// 에러 상태면 
-			e.printStackTrace(); 		// 예외추적내용 출력하고 
-			model.addAttribute("error", "뉴스 상세 에러");	//model 에 error메시지 넣는다
+			model.addAttribute("Acontacts", list);		// 에러 없으면 model에 연락처 목록 넣는다
+		} catch (Exception e) { 				// 에러 상태면 
+			e.printStackTrace(); 				// 예외추적내용 출력하고 
+			model.addAttribute("error", "뉴스 상세 에러");	// model 에 error메시지 넣는다
 		}
 		return "member/Acontacts";		//Acontacts(.jsp)로 포워드
 }
@@ -117,11 +117,11 @@ public class MemberWebController {		//컨트롤러 클래스
 //			현재 session에서 로그인한 회원id 추출
 			String memberid = (String)session.getAttribute("memberid");
 			list = mcdao.getAll(memberid);			//로그인 멤버의 연락처 목록만 검색해서 ArrayList로 받는다
-			model.addAttribute("memberid", memberid);// model에 회원id 넣기
-			model.addAttribute("contactList", list); // 에러 없으면 model에 연락처 목록 넣는다, key가 "contactList"
+			model.addAttribute("memberid", memberid);	// model에 회원id 넣기
+			model.addAttribute("contactList", list); 	// 에러 없으면 model에 연락처 목록 넣는다, key가 "contactList"
 		} catch (Exception e) { 
 			e.printStackTrace();
-			model.addAttribute("error", "목록보기 에러");// 에러 상태면 model 에 error메시지가 들어간다
+			model.addAttribute("error", "목록보기 에러");	// 에러 상태면 model 에 error메시지가 들어간다
 		}
 	return "member/Acontacts";			//Acontacts(.jsp)로 포워드
  	}
@@ -131,7 +131,7 @@ public class MemberWebController {		//컨트롤러 클래스
 	@GetMapping("/update/{contactid}")	//localhost:9988/member/update/: URL 주소 매핑- 바로 아래 메소드
 	public String getContact(@PathVariable int contactid, Model model) { 
 		try {
-		MContactDto mcdto = mcdao.getOne(contactid);//1명 연락처 담을 MContactDto 준비
+		MContactDto mcdto = mcdao.getOne(contactid);	//1명 연락처 담을 MContactDto 준비
 		model.addAttribute("MContactDto",mcdto); 	//연락처 추가 화면으로 보낼 준비
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -146,7 +146,7 @@ public class MemberWebController {		//컨트롤러 클래스
 	public String memberSearch(HttpSession session, Model model) {
 	try {
 		String memberid = (String)session.getAttribute("memberid");
-		model.addAttribute("memberid", memberid); // 회원의 memberid를 model에 넣는다
+		model.addAttribute("memberid", memberid); 	// 회원의 memberid를 model에 넣는다
 	} catch (Exception e) { 
 		e.printStackTrace();
 		model.addAttribute("error", "검색 목록보기 에러");// 에러 상태면 model 에 error메시지가 들어간다
@@ -162,11 +162,11 @@ public class MemberWebController {		//컨트롤러 클래스
 		String memberid = (String)session.getAttribute("memberid");
 		String searchname = request.getParameter("searchname"); //검색어 꺼내서 searchname에 저장 
 		try {
-			list = mcdao.getSearchName(memberid, searchname);	//로그인 멤버의 연락처에서 검색해서 ArrayList로 받는다
-			model.addAttribute("contactList", list); // 에러 없으면 model에 연락처 목록 넣는다, key가 "contactList"
+			list = mcdao.getSearchName(memberid, searchname);//로그인 멤버의 연락처에서 검색해서 ArrayList로 받는다
+			model.addAttribute("contactList", list); 	// 에러 없으면 model에 연락처 목록 넣는다, key가 "contactList"
 		} catch (Exception e) { 
-			e.printStackTrace();		//예외추적내용 출력하고 
-			model.addAttribute("error", "검색 목록보기 에러");		//에러 상태면 model 에 error메시지가 들어간다
+			e.printStackTrace();				//예외추적내용 출력하고 
+			model.addAttribute("error", "검색 목록보기 에러");//에러 상태면 model 에 error메시지가 들어간다
 		}
 		return "/member/Asearchcontact"; //Asearchcontact(.jsp)로 포워드, 이름 검색결과 목록보기 화면
 	}
@@ -178,7 +178,7 @@ public class MemberWebController {		//컨트롤러 클래스
 		try {
 		String memberid= (String)session.getAttribute("memberid");
 		MContactDto mcdto = new MContactDto();		//1명 연락처 담을 MContactDto 준비
-		mcdto.setMemberid(memberid);		  		//로그인 멤버의 memberid 담기
+		mcdto.setMemberid(memberid);		  	//로그인 멤버의 memberid 담기
 		model.addAttribute("MContactDto",mcdto);	//연락처 추가 화면으로 보낼 준비
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -212,7 +212,7 @@ public String addMemberContact(HttpSession session,@ModelAttribute MContactDto m
 			mcdto.setPhoto("/img/default.jpeg"); //디폴트 사진 이미지
 		}
 //----이미지파일 저장 END---------------------------		
-		if(!mcdto.getName().isEmpty()) {//이름 입력이 있는 경우만 DB에 추가 
+		if(!mcdto.getName().isEmpty()) {	//이름 입력이 있는 경우만 DB에 추가 
 			mcdto.setMemberid(memberid);
 			mcdao.addContact(mcdto);	//DB에 넣기 위해 입력 정보 담은 mcdto를 mcdao로 보내기 
 			//여기까지 실행되는 연락처 추가
@@ -239,14 +239,14 @@ public String addMemberContact(HttpSession session,@ModelAttribute MContactDto m
 				file.transferTo(dest);	//지정된 경로에 저장하고
 				mcdto.setPhoto("/img/"+dest.getName()); //파일 이름을 DTO에 set한다
 			}
-			else {						//이미지 파일이 업로드 안되었으면 	
+			else {					//이미지 파일이 업로드 안되었으면 	
 				String photopathfromdb = mcdao.getPhotoPath(contactid); // 기존 DB에 있는 파일 이름 가져와서
 				mcdto.setPhoto(photopathfromdb); //파일 이름을 DTO에 set한다 
 			}
 //----이미지파일 저장 경로 END --------------------		
 			memberid = mcdao.getMemberid(contactid); //회원의 memberid를 가져온다 
 			mcdao.updateContact(mcdto);	//DB에 넣기 위해 입력 정보 담은 mcdto를 mcdao로 보내기 
-										//여기까지 실행되는 연락처 추가
+			//여기까지 실행되는 연락처 추가
 		} catch (Exception e) { 		// 에러 발생 한 경우
 			e.printStackTrace();		//예외추적내용 출력하고
 			model.addAttribute("error","연락처 수정 에러"); // 에러 넣기
@@ -262,10 +262,10 @@ public String addMemberContact(HttpSession session,@ModelAttribute MContactDto m
 		String memberid = "";
 		try {
 			memberid = mcdao.getMemberid(contactid);	//해당 연락처의 contactid를 얻는다
-			mcdao.delContact(contactid); 				//DB에서 삭제
-		} catch (Exception e) {							//에러 발생한 경우
-			e.printStackTrace(); 						//예외추적내용 출력하고
-			model.addAttribute("error", "연락처 삭제 에러");//에러 넣기
+			mcdao.delContact(contactid); 			//DB에서 삭제
+		} catch (Exception e) {					//에러 발생한 경우
+			e.printStackTrace(); 				//예외추적내용 출력하고
+			model.addAttribute("error", "연락처 삭제 에러");	//에러 넣기
 			// return 필요하긴 하다
 		}
 		return "redirect:/member/Acontacts/";//+memberid; 	//회원의 연락처 목록보기 화면으로 넘기기
