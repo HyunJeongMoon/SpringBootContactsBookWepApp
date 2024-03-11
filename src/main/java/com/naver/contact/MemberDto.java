@@ -7,7 +7,7 @@ package com.naver.contact;
 //==== MemberDto 클래스 ====================================
 public class MemberDto {
 
-	private String memberid;			//회원id
+	private String memberid;		//회원id
 	private String memberpassword;		//회원패스워드
 
 //==멤버변수 memberid를 위한 getter & setter======================	
